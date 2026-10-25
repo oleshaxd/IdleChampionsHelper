@@ -1,0 +1,51 @@
+{
+  "source": "https://github.com/chetanddesai/ic-specs/blob/main/data/champions.json",
+  "sourceNote": "Specialization names copied from a community Idle Champions specialization picker dataset. This source currently contains only the champions listed below; absence means unknown, not no specializations.",
+  "champions": {
+    "Donaar": [
+      "Not So Straightforward",
+      "Scales and Horns",
+      "Business Partners"
+    ],
+    "BBEG": [
+      "Powergaming",
+      "Min-Maxing",
+      "Rules Lawyering"
+    ],
+    "Anson": [
+      "Pure of Heart",
+      "Found Family",
+      "Never Surrender"
+    ],
+    "Lark": [
+      "Band of Misfits",
+      "Center of Attention",
+      "Path of Nightmares"
+    ],
+    "Tess": [
+      "The Fallback Plan",
+      "Eyes on the Horizon",
+      "Rogues' Gallery"
+    ],
+    "King of Shadows": [
+      "Legacy of Illefarn",
+      "Embrace the Shadow Weave",
+      "Rites of Survival"
+    ],
+    "Penelope": [
+      "Keep Your Friends Close",
+      "Keep Your Future Friends Closer",
+      "Everybody Gets To Be Friends"
+    ],
+    "Flint": [
+      "The First Cut",
+      "One for the Road",
+      "Flint's Family"
+    ],
+    "Hank": [
+      "Keep Your Distance",
+      "Close Quarters",
+      "The Hunter's Pack"
+    ]
+  }
+}
