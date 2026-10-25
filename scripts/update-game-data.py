@@ -7,8 +7,10 @@ import urllib.request
 from pathlib import Path
 
 URLS = [
+    "https://ps20.idlechampions.com/~idledragons/post.php?call=getDefinitions",
     "https://master.idlechampions.com/~idledragons/post.php?call=getdefinitions",
     "http://master.idlechampions.com/~idledragons/post.php?call=getdefinitions",
+    "http://ps20.idlechampions.com/~idledragons/post.php?call=getdefinitions",
 ]
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -22,9 +24,10 @@ def fetch():
             with urllib.request.urlopen(req, timeout=90) as response:
                 raw = response.read()
             parsed = json.loads(raw)
-            if not isinstance(parsed, dict) or not isinstance(parsed.get("hero_defines"), list) or not isinstance(parsed.get("upgrade_defines"), list):
-                raise ValueError("The server response does not look like Idle Champions game definitions.")
-            return parsed, url
+            if isinstance(parsed, dict) and isinstance(parsed.get("hero_defines"), list) and isinstance(parsed.get("upgrade_defines"), list):
+                return parsed, url
+            preview = raw[:250].decode("utf-8", errors="replace").replace("\\n", " ")
+            last = ValueError(f"Unexpected response from {url}: {preview}")
         except Exception as exc:
             last = exc
     raise RuntimeError(f"Could not fetch public game definitions: {last}")
