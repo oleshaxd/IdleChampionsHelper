@@ -134,7 +134,7 @@
       $("dataVersion").textContent = "Ошибка загрузки";
       $("resultNote").textContent = error.message;
     }
-    selected = roster.filter((name) => Boolean(championRecord(name)));
+    selected = [...roster];
     renderRoster();
     renderSelected();
     renderResults();
