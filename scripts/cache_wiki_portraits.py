@@ -112,19 +112,44 @@ def image_url_for_file(title):
     return None
 
 
+def exact_icon_title_candidates(name):
+    # The Wiki's Icon_<Champion>.png files are the clean in-game portraits.
+    # Try both underscore-separated and compact spellings (e.g. Hew Maan/HewMaan).
+    safe = re.sub(r"[^A-Za-z0-9 _'-]", "", name).strip()
+    variants = [safe.replace(" ", "_"), safe.replace(" ", "")]
+    titles = []
+    for variant in variants:
+        title = f"File:Icon_{variant}.png"
+        if title not in titles:
+            titles.append(title)
+    return titles
+
+
 def download_one(name):
     target = OUT / f"{slug(name)}.png"
-    if target.exists() and target.stat().st_size > 500:
-        return name, "cached"
-
     try:
-        results = search_file_pages(name)
-        title = choose_file(name, results)
-        if not title:
-            return name, "not found in Wiki file search"
-        url = image_url_for_file(title)
+        title = None
+        url = None
+        # Prefer exact Icon_ files. If one exists, refresh even an already cached
+        # portrait so incorrectly selected artwork is replaced by the clean icon.
+        for candidate in exact_icon_title_candidates(name):
+            candidate_url = image_url_for_file(candidate)
+            if candidate_url:
+                title, url = candidate, candidate_url
+                break
+
         if not url:
-            return name, f"no image URL for {title}"
+            # Preserve existing images when no exact icon exists; these may have
+            # been corrected manually. Only use search as a fallback for missing files.
+            if target.exists() and target.stat().st_size > 500:
+                return name, "cached (no exact Icon file found)"
+            results = search_file_pages(name)
+            title = choose_file(name, results)
+            if not title:
+                return name, "not found in Wiki file search"
+            url = image_url_for_file(title)
+            if not url:
+                return name, f"no image URL for {title}"
         request = Request(url, headers={"User-Agent": HEADERS["User-Agent"]})
         with urlopen(request, timeout=30) as response:
             data = response.read()
