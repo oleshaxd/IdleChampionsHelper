@@ -6,6 +6,7 @@ on:
     paths:
       - "index.html"
       - "scripts/cache_wiki_portraits.py"
+      - "assets/champions/README.md"
       - ".github/workflows/cache-wiki-portraits.yml"
   workflow_dispatch:
 
